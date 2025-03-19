@@ -59,8 +59,8 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()  // ✅ Use `parserBuilder()` instead of `parser()`
-                .setSigningKey(Keys.hmacShaKeyFor(getSigningKey()))  // ✅ Signing key is correct
+        return Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(getSigningKey()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
