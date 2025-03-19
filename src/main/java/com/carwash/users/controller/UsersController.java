@@ -1,8 +1,6 @@
 package com.carwash.users.controller;
-
 import com.carwash.users.entity.UsersEntity;
 import com.carwash.users.service.UsersService;
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
