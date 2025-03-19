@@ -16,21 +16,21 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    public final String SECRET_KEY="theonepieceisrealgoldrogergofind";
+    public final String SECRET_KEY = "3b2e5f8b4a293d5c6f8e9d4b1c7a5d4e9f3c2b1a5e7f6d3c";
 
     private byte[] getSigningKey(){
         return Decoders.BASE64.decode(SECRET_KEY);
     }
 
     //Method to generate JWT token
-    public String generateToken(String email){
-        Map<String,Object> claims=new HashMap<>();
+    public String generateToken(String email) {
+        Map<String, Object> claims = new HashMap<>();
 
         return Jwts.builder()
-                .claims(claims)
-                .subject(email)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000*60*60*10))  //10 hours expiration time
+                .setClaims(claims)
+                .setSubject(email)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(Keys.hmacShaKeyFor(getSigningKey()), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -61,13 +61,11 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(Keys.hmacShaKeyFor(getSigningKey()))  // Correct signing key method
+        return Jwts.parserBuilder()  // ✅ Use `parserBuilder()` instead of `parser()`
+                .setSigningKey(Keys.hmacShaKeyFor(getSigningKey()))  // ✅ Signing key is correct
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
-
-
 
 }

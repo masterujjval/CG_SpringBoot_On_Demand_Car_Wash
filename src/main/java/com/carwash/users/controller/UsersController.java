@@ -1,5 +1,6 @@
 package com.carwash.users.controller;
 import com.carwash.users.entity.UsersEntity;
+import com.carwash.users.jwtimpl.JwtUtil;
 import com.carwash.users.service.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,12 +18,13 @@ public class UsersController {
     private final UsersService usersService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder; // PasswordEncoder inject kar rahe hain
-
+    private final JwtUtil jwtUtil;
     // Constructor injection
-    public UsersController(UsersService usersService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+    public UsersController(UsersService usersService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.usersService = usersService;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
@@ -38,9 +40,10 @@ public class UsersController {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
             // Set the authentication in the security context
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtUtil.generateToken(users.getEmail());
 
-            return ResponseEntity.status(200).body("{\"message\": \"Login Successful!\", \"status\": 200}");
+
+            return ResponseEntity.ok("{\"token\": \"" + token + "\"}");
         }
         return ResponseEntity.status(401).body("{\"message\": \"Invalid Credentials!\", \"status\": 401}");
     }
