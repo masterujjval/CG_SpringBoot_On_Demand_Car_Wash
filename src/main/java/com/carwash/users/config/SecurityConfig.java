@@ -25,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // Disable CSRF for simplicity, you can enable it later
+                .csrf().disable() // here we have disable csrf for now
                 .authorizeHttpRequests()
                 .requestMatchers("/api/user/register","/api/user/login").permitAll()  // Allow public access to login endpoint with any path
                 .anyRequest()

@@ -26,15 +26,15 @@ public class CustomUserDetailsService implements org.springframework.security.co
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Database se email se user fetch karna
+        // fetching email from the database
         UsersEntity user = usersRepo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
         // Return user with email and password (encrypted password)
         return User.builder()
-                .username(user.getEmail()) // Email ko username ke roop mein use kar rahe hain
+                .username(user.getEmail()) // Here we are using email as username
                 .password(user.getPassword()) // Encrypted password
-                .roles("USER")  // Default role (user ke liye)
+                .roles("USER")  // default role
                 .build();
     }
 

@@ -29,10 +29,10 @@ public class UsersController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UsersEntity users) {
-        // Email se user fetch karna
+        // fetch email
         UsersEntity user = usersService.getByEmail(users.getEmail()).stream().findFirst().orElse(null);
 
-        if (user != null && passwordEncoder.matches(users.getPassword(), user.getPassword())) { // Password match karte hain
+        if (user != null && passwordEncoder.matches(users.getPassword(), user.getPassword())) { // Mathcing password
             // Create authentication token using email and password
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(users.getEmail(), users.getPassword());
 
@@ -49,7 +49,7 @@ public class UsersController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UsersEntity users) {
-        usersService.registerUser(users); // Save user to DB
+        usersService.registerUser(users);
         return ResponseEntity.status(201).body("{\"message\": \"User registered successfully!\"}");
     }
 
