@@ -41,8 +41,6 @@ public class UsersController {
 
             // Set the authentication in the security context
             String token = jwtUtil.generateToken(users.getEmail());
-
-
             return ResponseEntity.ok("{\"token\": \"" + token + "\"}");
         }
         return ResponseEntity.status(401).body("{\"message\": \"Invalid Credentials!\", \"status\": 401}");
