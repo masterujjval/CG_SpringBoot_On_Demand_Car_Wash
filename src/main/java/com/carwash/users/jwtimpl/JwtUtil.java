@@ -1,5 +1,4 @@
 package com.carwash.users.jwtimpl;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,7 +6,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,11 +35,11 @@ public class JwtUtil {
 
     // to extract email from the JWT token
     public String extractEmail(String token){
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, claims -> claims.getSubject());
     }
 
     public Date extractExpiration(String token){
-        return extractClaim(token,Claims::getExpiration);
+        return extractClaim(token,claims -> claims.getExpiration());
     }
 
     //to extract any claim from the token
